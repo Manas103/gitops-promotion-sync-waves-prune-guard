@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: services
+  namespace: argocd
+spec:
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - cluster: cluster-a
+                - cluster: cluster-b
+                - cluster: cluster-c
+          - list:
+              elements:
+                - service: svc1
+                - service: svc2
+                - service: svc3
+                - service: svc4
+                - service: svc5
+                - service: svc6
+  template:
+    metadata:
+      name: "{{cluster}}-{{service}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Manas103/gitops-promotion-sync-waves-prune-guard.git
+        targetRevision: master
+        path: service-template
+        helm:
+          parameters:
+            - {name: serviceName, value: "{{service}}"}
+            - {name: clusterName, value: "{{cluster}}"}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{cluster}}-{{service}}"
+      syncPolicy:
+        syncOptions: ["CreateNamespace=true"]
