@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.serviceName }}-deploy-success-objective
+data:
+  objective.yaml: |
+    slo: deploy-success-rate
+    service: {{ .Values.serviceName }}
+    cluster: {{ .Values.clusterName }}
+    target: 0.99

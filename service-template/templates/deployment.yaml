@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.serviceName }}
+  annotations: {argocd.argoproj.io/sync-wave: "0"}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: {{ .Values.serviceName }}}}
+  template:
+    metadata: {labels: {app: {{ .Values.serviceName }}}}
+    spec:
+      containers:
+        - name: {{ .Values.serviceName }}
+          image: {{ .Values.image }}
