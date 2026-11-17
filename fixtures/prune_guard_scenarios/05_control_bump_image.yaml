@@ -1,0 +1,12 @@
+# Negative control: a routine image bump. No workload disappears, so the
+# guard must allow this merge.
+clusters: [cluster-a, cluster-b, cluster-c]
+services:
+  - {name: svc1, owner: team-checkout}
+  - {name: svc2, owner: team-payments}
+  - {name: svc3, owner: team-risk}
+  - {name: svc4, owner: team-settlement}
+  - {name: svc5, owner: team-reporting}
+  - {name: svc6, owner: team-reference-data}
+overrides:
+  svc1: {image: "nginx:1.28-alpine"}

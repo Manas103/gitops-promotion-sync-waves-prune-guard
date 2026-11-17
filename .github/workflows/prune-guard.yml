@@ -1,0 +1,33 @@
+name: prune guard and pre-upgrade gate
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: azure/setup-helm@v4
+        with:
+          version: "v3.22.1"
+      - run: pip install -r requirements.txt
+      - name: pre-upgrade gate (removed-API scan on the rendered chart)
+        run: |
+          mkdir -p /tmp/rendered-head
+          python tools/render_matrix.py applicationset/services-appset.yaml /tmp/rendered-head --appset
+          python tools/preupgrade_gate.py --target 1.26 /tmp/rendered-head
+      - name: merge-time prune guard (base ref vs. this PR's head)
+        run: |
+          git fetch origin "${{ github.base_ref }}"
+          mkdir -p /tmp/rendered-base /tmp/rendered-pr /tmp/base-worktree
+          git worktree add /tmp/base-worktree "origin/${{ github.base_ref }}"
+          python tools/render_matrix.py /tmp/base-worktree/applicationset/services-appset.yaml /tmp/rendered-base --appset --chart-dir /tmp/base-worktree/service-template
+          python tools/render_matrix.py applicationset/services-appset.yaml /tmp/rendered-pr --appset
+          python tools/prune_guard.py /tmp/rendered-base /tmp/rendered-pr

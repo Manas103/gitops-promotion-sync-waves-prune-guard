@@ -1,0 +1,8 @@
+# PR proposes removing svc6 from the matrix entirely.
+clusters: [cluster-a, cluster-b, cluster-c]
+services:
+  - {name: svc1, owner: team-checkout}
+  - {name: svc2, owner: team-payments}
+  - {name: svc3, owner: team-risk}
+  - {name: svc4, owner: team-settlement}
+  - {name: svc5, owner: team-reporting}

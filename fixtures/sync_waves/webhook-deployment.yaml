@@ -1,0 +1,69 @@
+# The sync-wave scenario's webhook backend: a real, running validating
+# webhook server (the admission-webhook:dev image already built for
+# compliant-terraform-module-policy-gate, pointed at an always-allow
+# Rego bundle). This is the prerequisite in scenario 6
+# (webhook-before-backing-service); it does not exist until this
+# Deployment and Service are applied.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: syncwave-webhook-policy
+  namespace: syncwave-demo
+data:
+  allow_all.rego: |
+    package landingzone.admission
+
+    deny := []
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: syncwave-webhook
+  namespace: syncwave-demo
+  labels: {app: syncwave-webhook}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: syncwave-webhook}
+  template:
+    metadata:
+      labels: {app: syncwave-webhook}
+    spec:
+      containers:
+        - name: webhook
+          image: admission-webhook:dev
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-addr=:8443"
+            - "-policy-dir=/policy"
+            - "-tls-cert=/certs/tls.crt"
+            - "-tls-key=/certs/tls.key"
+          ports:
+            - containerPort: 8443
+          volumeMounts:
+            - name: policy
+              mountPath: /policy
+              readOnly: true
+            - name: certs
+              mountPath: /certs
+              readOnly: true
+          readinessProbe:
+            httpGet: {path: /healthz, port: 8443, scheme: HTTPS}
+            initialDelaySeconds: 1
+            periodSeconds: 2
+      volumes:
+        - name: policy
+          configMap: {name: syncwave-webhook-policy}
+        - name: certs
+          secret: {secretName: syncwave-webhook-tls}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: syncwave-webhook
+  namespace: syncwave-demo
+spec:
+  selector: {app: syncwave-webhook}
+  ports:
+    - port: 443
+      targetPort: 8443

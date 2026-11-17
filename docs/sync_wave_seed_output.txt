@@ -1,0 +1,26 @@
+cluster ready
+
+=== serviceaccount-before-pod: seeded failure (SA absent) ===
+Error from server (Forbidden): error when creating "STDIN": pods "probe-sa" is forbidden: error looking up service account syncwave-demo/demo-sa: serviceaccount "demo-sa" not found
+
+=== priorityclass-before-pod: seeded failure (PriorityClass absent) ===
+Error from server (Forbidden): error when creating "STDIN": pods "probe-pc" is forbidden: error looking up service account syncwave-demo/demo-sa: serviceaccount "demo-sa" not found
+
+=== runtimeclass-before-pod: seeded failure (RuntimeClass absent) ===
+Error from server (Forbidden): error when creating "STDIN": pods "probe-rc" is forbidden: error looking up service account syncwave-demo/demo-sa: serviceaccount "demo-sa" not found
+
+=== crd-before-cr: seeded failure (CRD absent) ===
+Error from server (NotFound): error when creating "STDIN": the server could not find the requested resource (post syncwavethings.syncwave.example.com)
+
+=== namespace-before-resource: seeded failure (Namespace absent) ===
+Error from server (Forbidden): error when creating "STDIN": configmaps "probe-ns" is forbidden: unable to create new content in namespace syncwave-ns-demo because it is being terminated
+
+=== creating every prerequisite, in order ===
+
+=== clean syncs: every dependent object now succeeds ===
+pod/probe-sa created (server dry run)
+pod/probe-pc created (server dry run)
+pod/probe-rc created (server dry run)
+syncwavething.syncwave.example.com/probe-cr created (server dry run)
+
+seed complete

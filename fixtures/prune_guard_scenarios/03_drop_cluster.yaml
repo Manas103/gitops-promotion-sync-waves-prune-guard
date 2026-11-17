@@ -1,0 +1,10 @@
+# PR proposes dropping cluster-c from the matrix (e.g. "decommissioning"
+# a cluster without first draining its workloads).
+clusters: [cluster-a, cluster-b]
+services:
+  - {name: svc1, owner: team-checkout}
+  - {name: svc2, owner: team-payments}
+  - {name: svc3, owner: team-risk}
+  - {name: svc4, owner: team-settlement}
+  - {name: svc5, owner: team-reporting}
+  - {name: svc6, owner: team-reference-data}

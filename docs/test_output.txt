@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-9.2.0, pluggy-1.7.0 -- /home/manas/build/gpt/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/manas/build/gpt
+collecting ... collected 15 items
+
+tests/test_applicationset.py::test_18_applications_from_one_applicationset PASSED [  6%]
+tests/test_preupgrade_gate.py::test_nine_of_nine_removed_apis_caught PASSED [ 13%]
+tests/test_preupgrade_gate.py::test_current_apis_not_flagged PASSED      [ 20%]
+tests/test_preupgrade_gate.py::test_each_removed_manifest_individually_caught PASSED [ 26%]
+tests/test_prune_guard.py::test_four_of_four_prune_scenarios_blocked PASSED [ 33%]
+tests/test_prune_guard.py::test_svc5_disabled_blocks_exactly_three_deployments_with_owner PASSED [ 40%]
+tests/test_prune_guard.py::test_routine_image_bump_not_blocked PASSED    [ 46%]
+tests/test_sync_waves.py::test_six_scenarios_defined PASSED              [ 53%]
+tests/test_sync_waves.py::test_each_scenario_clean_sync_once[serviceaccount-before-pod] PASSED [ 60%]
+tests/test_sync_waves.py::test_each_scenario_clean_sync_once[priorityclass-before-pod] PASSED [ 66%]
+tests/test_sync_waves.py::test_each_scenario_clean_sync_once[runtimeclass-before-pod] PASSED [ 73%]
+tests/test_sync_waves.py::test_each_scenario_clean_sync_once[crd-before-cr] PASSED [ 80%]
+tests/test_sync_waves.py::test_each_scenario_clean_sync_once[namespace-before-resource] PASSED [ 86%]
+tests/test_sync_waves.py::test_each_scenario_clean_sync_once[webhook-before-backing-service] PASSED [ 93%]
+tests/test_sync_waves.py::test_forty_clean_syncs_round_robin_zero_failures PASSED [100%]
+
+======================== 15 passed in 67.09s (0:01:07) =========================

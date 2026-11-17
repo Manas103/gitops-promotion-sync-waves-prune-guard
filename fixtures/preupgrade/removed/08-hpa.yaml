@@ -1,0 +1,8 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: legacy-hpa
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: legacy}
+  minReplicas: 1
+  maxReplicas: 3

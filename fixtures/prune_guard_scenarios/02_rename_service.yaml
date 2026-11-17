@@ -1,0 +1,11 @@
+# PR proposes renaming svc3 to svc3v2 (a typo'd or "cleanup" rename); the
+# old name's Deployment vanishes from the render even though a replacement
+# appears under a new name.
+clusters: [cluster-a, cluster-b, cluster-c]
+services:
+  - {name: svc1, owner: team-checkout}
+  - {name: svc2, owner: team-payments}
+  - {name: svc3v2, owner: team-risk}
+  - {name: svc4, owner: team-settlement}
+  - {name: svc5, owner: team-reporting}
+  - {name: svc6, owner: team-reference-data}

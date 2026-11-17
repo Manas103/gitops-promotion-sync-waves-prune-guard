@@ -1,3 +1,5 @@
 serviceName: example
 clusterName: cluster-a
 image: nginx:1.27-alpine
+owner: unassigned
+enableWorkload: true

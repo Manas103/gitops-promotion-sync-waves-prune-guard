@@ -14,12 +14,12 @@ spec:
                 - cluster: cluster-c
           - list:
               elements:
-                - service: svc1
-                - service: svc2
-                - service: svc3
-                - service: svc4
-                - service: svc5
-                - service: svc6
+                - {service: svc1, owner: team-checkout}
+                - {service: svc2, owner: team-payments}
+                - {service: svc3, owner: team-risk}
+                - {service: svc4, owner: team-settlement}
+                - {service: svc5, owner: team-reporting}
+                - {service: svc6, owner: team-reference-data}
   template:
     metadata:
       name: "{{cluster}}-{{service}}"
@@ -33,6 +33,7 @@ spec:
           parameters:
             - {name: serviceName, value: "{{service}}"}
             - {name: clusterName, value: "{{cluster}}"}
+            - {name: owner, value: "{{owner}}"}
       destination:
         server: https://kubernetes.default.svc
         namespace: "{{cluster}}-{{service}}"

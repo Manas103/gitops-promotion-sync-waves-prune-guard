@@ -1,0 +1,14 @@
+# PR proposes setting enableWorkload=false for svc5 only (e.g. to "pause"
+# it); the Deployment disappears from the render while its Service and
+# ConfigMaps remain, so the guard must key on the workload kind, not on
+# whether the service entry still exists.
+clusters: [cluster-a, cluster-b, cluster-c]
+services:
+  - {name: svc1, owner: team-checkout}
+  - {name: svc2, owner: team-payments}
+  - {name: svc3, owner: team-risk}
+  - {name: svc4, owner: team-settlement}
+  - {name: svc5, owner: team-reporting}
+  - {name: svc6, owner: team-reference-data}
+overrides:
+  svc5: {enableWorkload: "false"}

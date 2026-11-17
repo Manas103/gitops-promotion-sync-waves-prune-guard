@@ -1,0 +1,10 @@
+# Mirrors the real applicationset/services-appset.yaml matrix: the
+# currently-live state the prune guard treats as truth.
+clusters: [cluster-a, cluster-b, cluster-c]
+services:
+  - {name: svc1, owner: team-checkout}
+  - {name: svc2, owner: team-payments}
+  - {name: svc3, owner: team-risk}
+  - {name: svc4, owner: team-settlement}
+  - {name: svc5, owner: team-reporting}
+  - {name: svc6, owner: team-reference-data}
